@@ -1,0 +1,62 @@
+[project]
+name = "project-form-auto"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Amelchrb",email = "cherbiamel@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi (>=0.127.0,<0.128.0)",
+    "uvicorn (>=0.40.0,<0.41.0)",
+    "requests (>=2.32.5,<3.0.0)",
+    "beautifulsoup4 (>=4.14.3,<5.0.0)",
+    "lxml (>=6.0.2,<7.0.0)",
+    "selenium (>=4.39.0,<5.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "project_form_auto", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "ruff (>=0.14.10,<0.15.0)",
+    "mypy (>=1.19.1,<2.0.0)",
+    "pytest (>=9.0.2,<10.0.0)"
+]
+
+[tool.ruff]
+preview = true
+lint.select = ["E", "F", "W", "I", "N", "RET", "SIM"]    
+lint.ignore = ["E501", "N999", "N815", "E712"]
+lint.extend-select = [
+    "E231", 
+    "E112", 
+    "E113",
+    "E114",
+    "E117",
+    "E201",
+    "E202",
+    "E203",
+    "E211",
+    "E221",
+    "E222",
+    "E223",
+    "E224",
+    "E225",
+    "E226",
+    "E227",
+    "E228",
+    "E231",
+    "E251",
+    "E252",
+    "E262",
+    "E275",
+    "PLR2004",
+    "PLR5501"
+]
