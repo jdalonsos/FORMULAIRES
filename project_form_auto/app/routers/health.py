@@ -4,6 +4,7 @@ from fastapi import APIRouter
 
 router = APIRouter(tags=["health"])  # Appartient au groupe "health" dans le swagger.
 
-@router.get("/health")  # noqa: E302
+
+@router.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
