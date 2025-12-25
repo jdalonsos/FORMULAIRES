@@ -1,11 +1,13 @@
 # Récupération du HTML brut.
 import random
-import time
 
 import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 
 TIMEOUT = 15
@@ -20,23 +22,65 @@ USER_AGENTS = [
 
 # Récupération du contenu HTML d'une page web.
 
-def fetch_html_with_selenium(url: str, wait_seconds: int = 3) -> str:
+
+def create_driver() -> webdriver.Chrome:
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
 
-    driver = webdriver.Chrome(options=options, service=Service(ChromeDriverManager().install()))
+    return webdriver.Chrome(
+        options=options,
+        service=Service(ChromeDriverManager().install())
+    )
+
+
+# Cas des pages avec du JavaScript dynamique (formulaire non accessible avec le code source) .
+def load_main_page(driver: webdriver.Chrome, url: str, wait_seconds: int) -> str:
+    driver.get(url)
+    WebDriverWait(driver, wait_seconds).until(
+        ec.presence_of_element_located((By.TAG_NAME, "body")))
+    return driver.page_source
+
+
+# Cas avec iframes.
+def get_iframes(driver: webdriver.Chrome) -> list:
+    return driver.find_elements(By.TAG_NAME, "iframe")
+
+
+def load_iframe_html(driver: webdriver.Chrome, iframe) -> str:
+    driver.switch_to.frame(iframe)
+    html = driver.page_source
+    driver.switch_to.default_content()
+    return html
+
+
+def fetch_html_with_selenium(url: str, wait_seconds: int = 10) -> str:
+    driver = create_driver()
 
     try:
-        driver.get(url)
-        time.sleep(wait_seconds)  # laisse le JS se charger
-        html = driver.page_source
+        main_html = load_main_page(driver, url, wait_seconds)
+
+        # Cas simple : formulaire dans le DOM principal
+        if "<form" in main_html.lower():
+            return main_html
+
+        # Recherche éventuelle dans les iframes
+        iframes = get_iframes(driver)
+
+        for iframe in iframes:
+            iframe_html = load_iframe_html(driver, iframe)
+
+            if "<form" in iframe_html.lower():
+                return iframe_html
+
+        return main_html
+
     finally:
         driver.quit()
 
-    return html
 
+# Fonction principale de récupération du HTML.
 
 def fetch_html(url: str, timeout: int = TIMEOUT) -> tuple[int, str]:
     headers = {
@@ -46,13 +90,16 @@ def fetch_html(url: str, timeout: int = TIMEOUT) -> tuple[int, str]:
         "Connection": "close",
     }
 
-    response = requests.get(url, headers=headers, timeout=timeout)
-    response.raise_for_status()
-    html = response.text
+    try:
+        response = requests.get(url, headers=headers, timeout=timeout)
+        response.raise_for_status()
+        html = response.text
+        html_lower = html.lower()
+        limit_size = 1000
+        if len(html) < limit_size or "<form" not in html_lower:
+            html = fetch_html_with_selenium(url)
+        return response.status_code, html
 
-# Si le HTML est trop court ou ne contient pas de formulaire clair, utilise Selenium.
-    if len(html) < 1000 or "<form" not in html.lower():
-        selenium_html = fetch_html_with_selenium(url)
-        return response.status_code, selenium_html
-
-    return response.status_code, html
+    except requests.RequestException:
+        html = fetch_html_with_selenium(url)
+        return 200, html
