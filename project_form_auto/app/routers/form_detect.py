@@ -18,7 +18,7 @@ def detect(request: DetectRequest) -> DetectResponse:
     except requests.RequestException as e:
         raise HTTPException(status_code=502, detail=f"Network error while fetching page: {e}") from e
 
-    result = detect_form(html, use_heuristics=request.use_heuristics)
+    result = detect_form(html)
 
     return DetectResponse(
         url=str(request.url),
