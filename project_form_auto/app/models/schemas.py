@@ -1,6 +1,10 @@
 from pydantic import BaseModel, Field, HttpUrl
 
 
+class HealthResponse(BaseModel):
+    status: str = Field(..., example="ok")
+
+
 class DetectRequest(BaseModel):
     url: HttpUrl = Field(..., description="URL de la page à analyser")
 

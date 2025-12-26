@@ -2,9 +2,11 @@
 
 from fastapi import APIRouter
 
+from app.models.schemas import HealthResponse
+
 router = APIRouter(tags=["health"])  # Appartient au groupe "health" dans le swagger.
 
 
 @router.get("/health")
-def health() -> dict[str, str]:
+def health() -> HealthResponse:
     return {"status": "ok"}
