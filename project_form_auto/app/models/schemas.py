@@ -25,3 +25,9 @@ class FormField(BaseModel):
     id: Optional[str] = None
     placeholder: Optional[str] = None
     label: Optional[str] = None
+
+
+class FormAnalyzeResponse(BaseModel):
+    url: str
+    fields_count: int
+    fields: list[FormField]
