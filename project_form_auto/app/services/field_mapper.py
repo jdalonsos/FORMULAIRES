@@ -16,7 +16,7 @@ SYNONYMS = {
     "country": ["country", "pays", "nation"],
     "address": ["address", "adresse", "fulladdress", "full_address", "billingaddress", "shippingaddress"],
     "company": ["company", "societe", "société", "enterprise", "organisation", "organization"],
-    "birth_date": ["birthdate", "birth_date", "dob", "dateofbirth", "date_naissance", "datedenaissance"],
+    "birth_date": ["birthdate", "birth_date", "dob", "dateofbirth", "date_naissance", "datedenaissance", "date de naissance"],
     "gender": ["gender", "sexe", "sex", "civility", "civilite", "title"],
     "birth_day": ["day", "jour", "birthday_day", "birth_day", "dayofbirth", "jour_naissance"],
     "birth_month": ["month", "mois", "birthday_month", "birth_month", "monthofbirth", "mois_naissance"],
