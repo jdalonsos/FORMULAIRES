@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel, Field, HttpUrl
 
 
@@ -17,3 +19,18 @@ class DetectResponse(BaseModel):
     has_inputs: bool
     probable_form: bool
     reasons: list[str]
+
+
+class FormField(BaseModel):
+    tag: str
+    type: Optional[str] = None
+    name: Optional[str] = None
+    id: Optional[str] = None
+    placeholder: Optional[str] = None
+    label: Optional[str] = None
+
+
+class FormAnalyzeResponse(BaseModel):
+    url: str
+    fields_count: int
+    fields: list[FormField]
