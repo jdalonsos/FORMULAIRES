@@ -63,6 +63,34 @@ class UserData(BaseModel):
     company: Optional[str] = None
 
 
+class UserResponse(BaseModel):
+    user: UserData | None
+
+
+class UserPatchRequest(BaseModel):
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    full_name: Optional[str] = None
+    gender: Optional[str] = None
+    birth_date: Optional[str] = None
+    birth_day: Optional[int] = None
+    birth_month: Optional[int] = None
+    birth_year: Optional[int] = None
+    age: Optional[int] = None
+
+    email: Optional[str] = None
+    phone: Optional[str] = None
+
+    address: Optional[str] = None
+    street: Optional[str] = None
+    street_number: Optional[str] = None
+    postal_code: Optional[str] = None
+    city: Optional[str] = None
+    country: Optional[str] = None
+
+    company: Optional[str] = None
+
+
 class MappedFormField(FormField):
     matched_key: Optional[str] = Field(
         None, description="UserData key matched to this form field"
