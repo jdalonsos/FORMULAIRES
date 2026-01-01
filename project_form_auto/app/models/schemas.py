@@ -73,3 +73,15 @@ class MappedFormField(FormField):
     reason: Optional[str] = Field(
         None, description="Explanation of why this field was matched"
     )
+
+
+class FormMapRequest(BaseModel):
+    url: str
+    user_data: UserData
+
+
+class FormMapResponse(BaseModel):
+    url: str
+    total_fields: int
+    matched_fields: int
+    fields: list[MappedFormField]
