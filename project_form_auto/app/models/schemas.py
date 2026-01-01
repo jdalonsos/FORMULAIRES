@@ -34,3 +34,30 @@ class FormAnalyzeResponse(BaseModel):
     url: str
     fields_count: int
     fields: list[FormField]
+
+
+class UserData(BaseModel):
+    # Identité
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    full_name: Optional[str] = None
+    gender: Optional[str] = None
+    birth_date: Optional[str] = None
+    birth_day: Optional[int] = None
+    birth_month: Optional[int] = None
+    birth_year: Optional[int] = None
+    age: Optional[int] = None
+
+    # Contact
+    email: Optional[str] = None
+    phone: Optional[str] = None
+
+    # Adresse
+    address: Optional[str] = None
+    street: Optional[str] = None
+    street_number: Optional[str] = None
+    postal_code: Optional[str] = None
+    city: Optional[str] = None
+    country: Optional[str] = None
+
+    company: Optional[str] = None
