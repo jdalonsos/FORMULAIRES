@@ -61,3 +61,15 @@ class UserData(BaseModel):
     country: Optional[str] = None
 
     company: Optional[str] = None
+
+
+class MappedFormField(FormField):
+    matched_key: Optional[str] = Field(
+        None, description="UserData key matched to this form field"
+    )
+    confidence: float = Field(
+        0.0, ge=0.0, le=1.0, description="Confidence score of the matching"
+    )
+    reason: Optional[str] = Field(
+        None, description="Explanation of why this field was matched"
+    )
