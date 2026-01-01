@@ -50,7 +50,7 @@ def _field_text(field: FormField) -> str:
 def match_field_to_user_key(field: FormField) -> tuple[str | None, float, str]:
 
     # Priorité au tyepe du champ
-    field_type = field.get("type")
+    field_type = field.type
     if field_type:
         field_type = field_type.lower()
 
