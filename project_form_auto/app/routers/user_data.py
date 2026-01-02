@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 
-from app.models.schemas import UserData, UserResponse
-from app.services.user_store import create_user, get_user
+from app.models.schemas import UserData, UserPatchRequest, UserResponse
+from app.services.user_store import create_user, get_user, patch_user, replace_user
 
 router = APIRouter(prefix="/user", tags=["user"])
 
@@ -23,6 +23,30 @@ def create_user_endpoint(user_data: UserData) -> UserResponse:
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
+            detail=str(e),
+        ) from e
+    return UserResponse(user=user)
+
+
+@router.put("", response_model=UserResponse)
+def replace_user_endpoint(user_data: UserData) -> UserResponse:
+    try:
+        user = replace_user(user_data)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(e),
+        ) from e
+    return UserResponse(user=user)
+
+
+@router.patch("", response_model=UserResponse)
+def patch_user_endpoint(patch: UserPatchRequest) -> UserResponse:
+    try:
+        user = patch_user(patch)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
             detail=str(e),
         ) from e
     return UserResponse(user=user)

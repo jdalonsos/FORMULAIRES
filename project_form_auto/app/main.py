@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 
-from app.routers.user_data import router as user_router
 from app.routers.form_analyzer import router as form_analyze_router
 from app.routers.form_detect import router as form_detect_router
 from app.routers.form_map import router as form_map_router
 from app.routers.health import router as health_router
+from app.routers.user_data import router as user_router
 
 app = FastAPI(title="Web Form Detector", version="0.1.0")
 
