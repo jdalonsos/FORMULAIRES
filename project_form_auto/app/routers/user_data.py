@@ -1,7 +1,13 @@
 from fastapi import APIRouter, HTTPException, status
 
 from app.models.schemas import UserData, UserPatchRequest, UserResponse
-from app.services.user_store import create_user, get_user, patch_user, replace_user
+from app.services.user_store import (
+    create_user,
+    delete_user,
+    get_user,
+    patch_user,
+    replace_user,
+)
 
 router = APIRouter(prefix="/user", tags=["user"])
 
@@ -50,3 +56,8 @@ def patch_user_endpoint(patch: UserPatchRequest) -> UserResponse:
             detail=str(e),
         ) from e
     return UserResponse(user=user)
+
+@router.delete("", status_code=status.HTTP_204_NO_CONTENT)
+def delete_user_endpoint() -> None:
+    delete_user()
+    return None
