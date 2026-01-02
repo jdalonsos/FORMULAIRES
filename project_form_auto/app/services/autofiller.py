@@ -75,3 +75,4 @@ def fill_fields(driver, fields: list[FormField], user: UserData) -> dict:
         filled.append({"field": field.model_dump(), "key": key, "value": value, "confidence": conf})
 
     return {"filled": filled, "skipped": skipped}
+# autofill service ready
