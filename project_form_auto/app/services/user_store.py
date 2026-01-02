@@ -39,3 +39,8 @@ def patch_user(partial: UserPatchRequest) -> UserData:
     current.update(updates)
     _USER = UserData(**current)
     return _USER
+
+
+def delete_user() -> None:
+    global _USER
+    _USER = None
