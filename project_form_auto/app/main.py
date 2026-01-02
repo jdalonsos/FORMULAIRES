@@ -8,3 +8,5 @@ app = FastAPI(title="Web Form Detector", version="0.1.0")
 app.include_router(health_router)
 app.include_router(form_detect_router)
 app.include_router(form_analyze_router)
+from app.routers.autofill import router as autofill_router
+app.include_router(autofill_router)
