@@ -162,4 +162,3 @@ def extract_form_fields(html: str) -> list[FormField]:
         )
 
     return fields
-

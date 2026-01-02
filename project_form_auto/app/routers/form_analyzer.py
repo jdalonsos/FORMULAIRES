@@ -7,6 +7,10 @@ from app.services.scraper import fetch_html
 
 router = APIRouter(prefix="/form", tags=["form"])
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Amel
 @router.post("/analyze", response_model=FormAnalyzeResponse)
 def analyze_form(request: DetectRequest) -> FormAnalyzeResponse:
     try:
@@ -20,4 +24,8 @@ def analyze_form(request: DetectRequest) -> FormAnalyzeResponse:
         url=str(request.url),
         fields_count=len(fields),
         fields=fields,
+<<<<<<< HEAD
     )
+=======
+    )
+>>>>>>> Amel

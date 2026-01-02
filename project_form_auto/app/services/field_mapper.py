@@ -16,7 +16,7 @@ SYNONYMS = {
     "country": ["country", "pays", "nation"],
     "address": ["address", "adresse", "fulladdress", "full_address", "billingaddress", "shippingaddress"],
     "company": ["company", "societe", "société", "enterprise", "organisation", "organization"],
-    "birth_date": ["birthdate", "birth_date", "dob", "dateofbirth", "date_naissance", "datedenaissance"],
+    "birth_date": ["birthdate", "birth_date", "dob", "dateofbirth", "date_naissance", "datedenaissance", "date de naissance"],
     "gender": ["gender", "sexe", "sex", "civility", "civilite", "title"],
     "birth_day": ["day", "jour", "birthday_day", "birth_day", "dayofbirth", "jour_naissance"],
     "birth_month": ["month", "mois", "birthday_month", "birth_month", "monthofbirth", "mois_naissance"],
@@ -47,7 +47,7 @@ def _field_text(field: FormField) -> str:
 def match_field_to_user_key(field: FormField) -> tuple[str | None, float, str]:
 
     # Priorité au tyepe du champ
-    field_type = field.get("type")
+    field_type = field.type
     if field_type:
         field_type = field_type.lower()
 
@@ -83,5 +83,3 @@ def match_field_to_user_key(field: FormField) -> tuple[str | None, float, str]:
                 )
 
     return None, 0.0, "No match found"
-
-
