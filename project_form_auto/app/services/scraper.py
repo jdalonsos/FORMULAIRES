@@ -23,12 +23,12 @@ USER_AGENTS = [
 # Récupération du contenu HTML d'une page web.
 
 
-def create_driver() -> webdriver.Chrome:
+def create_driver(headless: bool = False) -> webdriver.Chrome:
     options = Options()
-    options.add_argument("--headless")
+    if headless:
+        options.add_argument("--headless")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
-
     return webdriver.Chrome(
         options=options,
         service=Service(ChromeDriverManager().install())
