@@ -112,3 +112,47 @@ class FormMapResponse(BaseModel):
     total_fields: int
     matched_fields: int
     fields: list[MappedFormField]
+
+
+# -------------------------------------------------------------------------------------------------
+# Models related to automatic form filling
+# -------------------------------------------------------------------------------------------------
+
+class AutoFillRequest(BaseModel):
+    """Request body for auto‑filling a form.
+
+    A request specifying which URL should be loaded and a set of user data
+    attributes. The API will attempt to match form fields on the page to
+    properties of the ``user_data`` object and input those values via a headless
+    browser. The ``url`` field does not enforce ``HttpUrl`` so that local or
+    internal resources can be targeted as well.
+    """
+
+    url: str
+    user_data: UserData
+
+
+class AutofilledField(MappedFormField):
+    """Representation of a single form field after auto‑filling.
+
+    Extends ``MappedFormField`` with a ``filled`` boolean that indicates
+    whether a value was actually inserted into the corresponding DOM element.
+    The inherited ``matched_key`` and ``confidence`` indicate why a user
+    property was chosen for this field and how confident the heuristic was.
+    """
+
+    filled: bool = False
+
+
+class AutoFillResponse(BaseModel):
+    """Response returned after attempting to auto‑fill a web form.
+
+    Contains high level statistics about the number of form fields encountered
+    and how many were successfully filled, along with detailed information
+    about each field.
+    """
+
+    url: str
+    total_fields: int
+    filled_fields: int
+    fields: list[AutofilledField]

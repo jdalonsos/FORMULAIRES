@@ -57,7 +57,7 @@ def is_probable_form(soup: BeautifulSoup) -> bool:
 
 
 def detect_form(html: str) -> dict:
-    soup = BeautifulSoup(html, "lxml")
+    soup = BeautifulSoup(html, "html.parser")
 
     form_present = has_form_tag(soup)
     input_present = has_input_fields(soup)
