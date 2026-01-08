@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+
+from app.routers.autofill import router as autofill_router
 from app.routers.form_analyzer import router as form_analyze_router
 from app.routers.form_detect import router as form_detect_router
 from app.routers.form_map import router as form_map_router
