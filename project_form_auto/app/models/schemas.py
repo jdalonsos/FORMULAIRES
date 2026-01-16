@@ -46,11 +46,11 @@ class UserData(BaseModel):
     birth_month: Optional[int] = None
     birth_year: Optional[int] = None
     age: Optional[int] = None
+    username : Optional[str] = None
 
     # Contact
     email: Optional[str] = None
     phone: Optional[str] = None
-
     # Adresse
     address: Optional[str] = None
     street: Optional[str] = None

@@ -3,15 +3,3 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-__pycache__/
-*.pyc
-__pycache__/
-*.pyc
-__pycache__/
-*.pyc
-
-# Python cache
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
