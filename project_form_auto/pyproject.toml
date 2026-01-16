@@ -14,7 +14,9 @@ dependencies = [
     "beautifulsoup4 (>=4.14.3,<5.0.0)",
     "lxml (>=6.0.2,<7.0.0)",
     "selenium (>=4.39.0,<5.0.0)",
-    "webdriver-manager (>=4.0.2,<5.0.0)"
+    "webdriver-manager (>=4.0.2,<5.0.0)",
+    "sentence-transformers (>=2.6.0,<3.0.0)",
+    "hf-xet (>=1.2.0,<2.0.0)"
 ]
 
 [tool.poetry]
