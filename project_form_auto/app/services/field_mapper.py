@@ -12,6 +12,9 @@ présenté dans sa fiche descriptive.
 
 Si le modèle ou ses dépendances ne sont pas disponibles à l’exécution (par exemple, paquets manquants ou absence d’accès Internet pour télécharger 
 les poids du modèle), le système revient aux heuristiques basées sur les tokens afin de préserver la compatibilité et d’éviter toute régression fonctionnelle.
+te
+
+
 """
 from __future__ import annotations
 import os
