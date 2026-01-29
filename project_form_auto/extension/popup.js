@@ -7,7 +7,7 @@ const fillBtn = document.getElementById('fillBtn');
 const statusDiv = document.getElementById('status');
 const resultsDiv = document.getElementById('results');
 
-// Test simple : changer le statut au clic
+// Test simple : changer le statut au clic 
 detectBtn.addEventListener('click', () => {
   statusDiv.textContent = 'Bouton de détection cliqué !';
   statusDiv.className = 'status status-loading';
