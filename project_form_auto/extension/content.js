@@ -94,3 +94,69 @@ function extractFieldInfo(field, index) {
    selector: generateSelector(field, index)
  };
 }
+
+
+/************************************
+ * Detecte tout les champs de formulaire pertinents
+ ***********************************/ 
+function detectFormFields() {
+ console.log('Détection des champs de formulaire...');
+ 
+ // Sélectionner tous les champs input, select, textarea
+ const allFields = document.querySelectorAll('input, select, textarea');
+ const formData = [];
+ 
+ allFields.forEach((field, index) => {
+   // Filtrer les champs non pertinents
+   const excludedTypes = ['hidden', 'submit', 'button', 'reset', 'image'];
+   
+   if (excludedTypes.includes(field.type)) {
+     return; // Ignorer ce champ
+   }
+   
+   // Ignorer les champs invisibles
+   const style = window.getComputedStyle(field);
+   if (style.display === 'none' || style.visibility === 'hidden') {
+     return;
+   }
+   
+   // Extraire les infos du champ
+   const fieldInfo = extractFieldInfo(field, formData.length);
+   formData.push(fieldInfo);
+   
+   console.log('Champ détecté:', fieldInfo.label || fieldInfo.name || fieldInfo.id);
+ });
+ 
+ console.log(`${formData.length} champs détectés au total`);
+ return formData;
+}
+
+/************************************
+ * DEcoute les messages du background/popup
+ ***********************************/
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+ console.log(' Message reçu:', request.action);
+ 
+ if (request.action === 'detectFields') {
+   try {
+     const fields = detectFormFields();
+     sendResponse({ 
+       success: true, 
+       fields: fields, 
+       count: fields.length,
+       url: window.location.href
+     });
+   } catch (error) {
+     console.error('Erreur lors de la détection:', error);
+     sendResponse({ 
+       success: false, 
+       error: error.message 
+     });
+   }
+ }
+ 
+ // Sert à  garder le canal ouvert pour la réponse asynchrone
+ return true;
+});
+
+console.log('Content script prêt à détecter les formulaires');
