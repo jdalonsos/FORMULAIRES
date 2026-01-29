@@ -44,6 +44,8 @@ function findLabel(field) {
   
   return '';
 }
+
+
 /************************************
  * Selectionneur unique pour un champ
  ***********************************/
@@ -70,4 +72,25 @@ function generateSelector(field, index) {
 //   2 → <input type="email"> // Email
   const tag = field.tagName.toLowerCase();
   return `${tag}[type="${field.type}"]:nth-of-type(${index + 1})`;
+} 
+
+
+/************************************
+ * Extrait toutes les informations utiles d'un champ
+ ***********************************/
+function extractFieldInfo(field, index) {
+ return {
+   index: index,
+   tag: field.tagName.toLowerCase(),
+   type: field.type || 'text',
+   name: field.name || '',
+   id: field.id || '',
+   className: field.className || '',
+   placeholder: field.placeholder || '',
+   label: findLabel(field),
+   ariaLabel: field.getAttribute('aria-label') || '',
+   required: field.required || false,
+   autocomplete: field.autocomplete || '',
+   selector: generateSelector(field, index)
+ };
 }
