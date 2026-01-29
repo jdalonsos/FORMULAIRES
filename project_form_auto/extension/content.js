@@ -44,3 +44,30 @@ function findLabel(field) {
   
   return '';
 }
+/************************************
+ * Selectionneur unique pour un champ
+ ***********************************/
+function generateSelector(field, index) {
+    // Priorité 1: ID (le plus fiable) <input id="email">
+    if (field.id) {
+      return `#${field.id}`;
+    }
+    
+    // Priorité 2: Name (assez fiable) <input name="email">
+    if (field.name) {
+      return `[name="${field.name}"]`;
+    }
+    
+  // Priorité 3: Placeholder (utile quand id/name absents)
+  // <input placeholder="Adresse email">
+  if (field.placeholder) {
+    return `${field.tagName.toLowerCase()}[placeholder="${CSS.escape(field.placeholder)}"]`;
+  }
+
+  // Priorité 4: Combinaison type + index (dernier recours)
+//   0 → <input type="text">  // Prénom
+//   1 → <input type="text">  // Nom
+//   2 → <input type="email"> // Email
+  const tag = field.tagName.toLowerCase();
+  return `${tag}[type="${field.type}"]:nth-of-type(${index + 1})`;
+}
