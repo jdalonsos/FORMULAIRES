@@ -3,9 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <title>AutoFill Assistant</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>AutoFill Assistant</h1>
-  <p>Version 0.1.0</p>
+  <div class="container">
+    <h1>AutoFill Assistant</h1>
+    <div class="version">v0.1.0</div>
+    
+    <div id="status" class="status status-info">
+      Prêt à détecter les formulaires
+    </div>
+    
+    <button id="detectBtn" class="btn btn-primary">
+      Détecter le formulaire
+    </button>
+    
+    <button id="fillBtn" class="btn btn-success" disabled>
+      Remplir automatiquement
+    </button>
+    
+    <div id="results" class="results"></div>
+  </div>
+  
+  <script src="popup.js"></script>
 </body>
 </html>
