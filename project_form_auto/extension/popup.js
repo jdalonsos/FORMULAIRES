@@ -8,6 +8,9 @@ const statusDiv = document.getElementById('status');
 const resultsDiv = document.getElementById('results');
 
 let detectedFields = [];
+let mappedFields = [];
+let currentUrl = '';
+
 
 /************************************
  * MAJ du statut affiché
@@ -20,14 +23,14 @@ function updateStatus(message, type = 'info') {
 
 
 /************************************
- * Affichage des champs détectés
+ * Affichage des champs détectés (retravailler le design plus tard)
  ***********************************/
 function displayFields(fields) {
     if (fields.length === 0) {
       resultsDiv.innerHTML = '<p style="color: #7f8c8d; font-size: 13px;">Aucun champ détecté</p>';
       return;
     }
-    
+
     resultsDiv.innerHTML = '<h3>Champs détectés :</h3>';
     
     fields.forEach((field, index) => {
@@ -35,7 +38,13 @@ function displayFields(fields) {
       div.className = 'field-item';
       
       // Déterminer le nom à afficher en fonction des disponibilités
-      const displayName = field.label || field.placeholder || field.name || field.id || `Champ ${index + 1}`;
+    const displayName = field.label || field.placeholder || field.name || field.id || `Champ ${index + 1}`;
+
+    // Icône selon le statut de mapping
+    const icon = field.matched_key ? 'oui' : 'non';
+        const matchInfo = field.matched_key 
+          ? `→ ${field.matched_key} (${(field.confidence * 100).toFixed(0)}%)`
+          : '(non mappé)';
       
       div.innerHTML = `
         <div class="field-label">${displayName}</div>

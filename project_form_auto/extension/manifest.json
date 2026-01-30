@@ -4,10 +4,16 @@
     "version": "0.1.0",
     "description": "Extension de remplissage automatique de formulaires",
 
-    
     "permissions": [
-      "activeTab" 
-    ],
+        "activeTab",
+        "scripting",
+        "storage"
+      ],
+      
+      "host_permissions": [
+        "http://localhost:8000/*",
+        "http://127.0.0.1:8000/*"
+      ],
     
     "action": {
       "default_popup": "popup.html"

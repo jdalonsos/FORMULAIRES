@@ -107,8 +107,8 @@ function detectFormFields() {
  const formData = [];
  
  allFields.forEach((field, index) => {
-   // Filtrer les champs non pertinents
-   const excludedTypes = ['hidden', 'submit', 'button', 'reset', 'image'];
+   // Filtrer les champs non pertinents: A voir checkbox et radio comment les gérer
+   const excludedTypes = ['hidden', 'submit', 'button', 'reset', 'image']; 
    
    if (excludedTypes.includes(field.type)) {
      return; // Ignorer ce champ
