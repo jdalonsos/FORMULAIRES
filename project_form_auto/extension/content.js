@@ -132,31 +132,76 @@ function detectFormFields() {
 }
 
 /************************************
- * DEcoute les messages du background/popup
+ * Écoute les messages du background/popup
  ***********************************/
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
- console.log(' Message reçu:', request.action);
- 
- if (request.action === 'detectFields') {
-   try {
-     const fields = detectFormFields();
-     sendResponse({ 
-       success: true, 
-       fields: fields, 
-       count: fields.length,
-       url: window.location.href
-     });
-   } catch (error) {
-     console.error('Erreur lors de la détection:', error);
-     sendResponse({ 
-       success: false, 
-       error: error.message 
-     });
-   }
- }
- 
- // Sert à  garder le canal ouvert pour la réponse asynchrone
- return true;
-});
-
-console.log('Content script prêt à détecter les formulaires');
+    console.log('Message reçu:', request.action);
+  
+    // -------------------------------
+    // Détection des champs (synchrone)
+    // -------------------------------
+    if (request.action === 'detectFields') {
+      try {
+        const fields = detectFormFields();
+        sendResponse({ 
+          success: true, 
+          fields,
+          count: fields.length,
+          url: window.location.href
+        });
+      } catch (error) {
+        console.error('Erreur lors de la détection:', error);
+        sendResponse({ 
+          success: false, 
+          error: error.message 
+        });
+      }
+  
+      // réponse envoyée immédiatement
+      return false;
+    }
+  
+    // -------------------------------
+    // Remplissage des champs (asynchrone)
+    // -------------------------------
+    if (request.action === 'fillFields') {
+      (async () => {
+        try {
+          let filled = 0;
+  
+          for (const mapping of request.mappings) {
+            const el = document.querySelector(mapping.selector);
+            if (!el) continue;
+  
+            el.focus();
+            el.value = mapping.value;
+  
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+  
+            filled++;
+            await new Promise(r => setTimeout(r, 150));
+          }
+  
+          // réponse OBLIGATOIRE
+          sendResponse({ success: true, filled });
+  
+        } catch (error) {
+          console.error('Erreur remplissage:', error);
+          sendResponse({ success: false, error: error.message });
+        }
+      })();
+  
+      // obligatoire car async
+      return true;
+    }
+  
+    // -------------------------------
+    // Action inconnue
+    // -------------------------------
+    sendResponse({ success: false, error: 'Action inconnue' });
+    return false;
+  });
+  
+  console.log('Content script prêt à détecter les formulaires');
+  

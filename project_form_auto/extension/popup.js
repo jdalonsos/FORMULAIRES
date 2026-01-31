@@ -240,15 +240,24 @@ fillBtn.addEventListener('click', async () => {
     fillBtn.disabled = true;
     
     try {
-      // Préparer les mappings pour le content script
-      const fillMappings = mappedFields
-        .filter(field => field.matched_key) // Seulement les champs mappés
-        .map(field => ({
-          selector: field.selector,
-          value: USER_DATA[field.matched_key] || '',
-          field_name: field.matched_key
-        }))
-        .filter(m => m.value); // Seulement ceux qui ont une valeur
+    // Préparer les mappings pour le content script (déduplication incluse)
+    const seenSelectors = new Set();
+
+    const fillMappings = mappedFields
+    .filter(field => field.matched_key) // Seulement les champs mappés
+    .map(field => ({
+        selector: field.selector,
+        value: USER_DATA[field.matched_key] || '',
+        field_name: field.matched_key
+    }))
+    .filter(m => m.value) // Seulement ceux qui ont une valeur
+    .filter(m => {
+        if (!m.selector) return false;
+        if (seenSelectors.has(m.selector)) return false;
+        seenSelectors.add(m.selector);
+        return true;
+    });
+
       
       console.log('Mappings à remplir:', fillMappings);
       
